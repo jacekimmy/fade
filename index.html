@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwitchPoint — Creative Strategy for Shopify Brands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #F2D16B;
+    --tan: #F5E6D0;
+    --red: #E8A0A0;
+    --blue: #A8C8E8;
+    --green: #B5D8B0;
+    --dark: #2A2520;
+    --cream: #FBF7F0;
+    --glass-bg: rgba(251, 247, 240, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --glass-shadow: rgba(42, 37, 32, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--yellow) var(--cream);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ===== FLOATING BLOBS ===== */
+  .blob-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: blobFloat 20s ease-in-out infinite;
+  }
+
+  .blob-1 {
+    width: 500px; height: 500px;
+    background: var(--yellow);
+    top: -10%; left: -5%;
+    animation-duration: 22s;
+  }
+  .blob-2 {
+    width: 400px; height: 400px;
+    background: var(--red);
+    top: 30%; right: -8%;
+    animation-duration: 18s;
+    animation-delay: -5s;
+  }
+  .blob-3 {
+    width: 450px; height: 450px;
+    background: var(--blue);
+    bottom: 10%; left: 10%;
+    animation-duration: 25s;
+    animation-delay: -10s;
+  }
+  .blob-4 {
+    width: 350px; height: 350px;
+    background: var(--green);
+    top: 60%; left: 50%;
+    animation-duration: 20s;
+    animation-delay: -7s;
+  }
+  .blob-5 {
+    width: 300px; height: 300px;
+    background: var(--tan);
+    top: 10%; right: 30%;
+    animation-duration: 23s;
+    animation-delay: -3s;
+  }
+
+  @keyframes blobFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(60px, -40px) scale(1.1); }
+    50% { transform: translate(-30px, 60px) scale(0.95); }
+    75% { transform: translate(40px, 30px) scale(1.05); }
+  }
+
+  /* ===== LIQUID GLASS ===== */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow:
+      0 8px 32px var(--glass-shadow),
+      inset 0 1px 0 rgba(255,255,255,0.5),
+      inset 0 -1px 0 rgba(255,255,255,0.1);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease;
+  }
+
+  .glass:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 16px 48px rgba(42, 37, 32, 0.12),
+      inset 0 1px 0 rgba(255,255,255,0.6),
+      inset 0 -1px 0 rgba(255,255,255,0.15);
+  }
+
+  .glass-subtle {
+    background: rgba(251, 247, 240, 0.3);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px var(--glass-shadow);
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    padding: 14px 36px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: rgba(251, 247, 240, 0.55);
+    backdrop-filter: blur(28px) saturate(1.5);
+    -webkit-backdrop-filter: blur(28px) saturate(1.5);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    box-shadow: 0 4px 24px var(--glass-shadow);
+    animation: fadeDown 0.8s ease-out;
+  }
+
+  .nav-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.3rem;
+    color: var(--dark);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--dark);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  .nav-cta {
+    background: var(--dark) !important;
+    color: var(--cream) !important;
+    opacity: 1 !important;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+    transition: background 0.3s, transform 0.3s !important;
+  }
+
+  .nav-cta:hover {
+    background: #3d362f !important;
+    transform: scale(1.04);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease-out 0.2s both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    animation: fadeUp 0.8s ease-out 0.4s both;
+    color: var(--dark);
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--dark);
+    opacity: 0.7;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    max-width: 480px;
+    margin-top: 24px;
+    opacity: 0.65;
+    font-weight: 400;
+    line-height: 1.7;
+    animation: fadeUp 0.8s ease-out 0.6s both;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    animation: fadeUp 0.8s ease-out 0.8s both;
+  }
+
+  .btn-primary {
+    background: var(--dark);
+    color: var(--cream);
+    padding: 16px 36px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background: #3d362f;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(42,37,32,0.2);
+  }
+
+  .btn-secondary {
+    padding: 16px 36px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--dark);
+    transition: all 0.3s;
+    cursor: pointer;
+    background: rgba(251, 247, 240, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(251, 247, 240, 0.8);
+    transform: translateY(-2px);
+  }
+
+  /* ===== SCROLL INDICATOR ===== */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.4;
+    animation: fadeUp 0.8s ease-out 1.2s both;
+  }
+
+  .scroll-hint span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: var(--dark);
+    animation: scrollPulse 2s ease-in-out infinite;
+    transform-origin: top;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { scaleY: 1; opacity: 0.4; }
+    50% { scaleY: 0.5; opacity: 0.1; }
+  }
+
+  /* ===== SECTIONS ===== */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    opacity: 0.45;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 600px;
+    margin-bottom: 60px;
+  }
+
+  /* ===== WHAT WE DO — BENTO ===== */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
+  }
+
+  .bento-card {
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bento-card.span-2 {
+    grid-column: span 2;
+  }
+
+  .bento-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+  }
+
+  .bento-icon.yellow { background: rgba(242, 209, 107, 0.35); }
+  .bento-icon.red { background: rgba(232, 160, 160, 0.35); }
+  .bento-icon.blue { background: rgba(168, 200, 232, 0.35); }
+  .bento-icon.green { background: rgba(181, 216, 176, 0.35); }
+
+  .bento-card h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .bento-card p {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    line-height: 1.6;
+    max-width: 380px;
+  }
+
+  /* ===== DIFFERENTIATOR ===== */
+  .diff-section {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .diff-section .section-title {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .diff-visual {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .diff-card {
+    padding: 40px;
+    text-align: center;
+    min-width: 260px;
+    flex: 1;
+    max-width: 400px;
+  }
+
+  .diff-card .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    opacity: 0.45;
+    margin-bottom: 16px;
+  }
+
+  .diff-card .time {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .diff-card .desc {
+    font-size: 0.85rem;
+    opacity: 0.55;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  .diff-vs {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    opacity: 0.3;
+  }
+
+  .diff-highlight .time { color: var(--dark); }
+  .diff-other .time { opacity: 0.35; text-decoration: line-through; }
+
+  /* ===== TIERS ===== */
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  .tier-card {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .tier-card.featured {
+    background: rgba(242, 209, 107, 0.15);
+    border-color: rgba(242, 209, 107, 0.4);
+  }
+
+  .tier-card.featured::before {
+    content: 'Most Popular';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--yellow);
+    color: var(--dark);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 100px;
+  }
+
+  .tier-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+  }
+
+  .tier-price {
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin: 16px 0 4px;
+  }
+
+  .tier-price span {
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .tier-desc {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .tier-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-grow: 1;
+  }
+
+  .tier-features li {
+    font-size: 0.88rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    opacity: 0.7;
+    line-height: 1.5;
+  }
+
+  .tier-features li::before {
+    content: '✓';
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+    opacity: 0.9;
+  }
+
+  .tier-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(42,37,32,0.15);
+    background: transparent;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--dark);
+    transition: all 0.3s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .tier-btn:hover {
+    background: var(--dark);
+    color: var(--cream);
+    border-color: var(--dark);
+  }
+
+  .tier-card.featured .tier-btn {
+    background: var(--dark);
+    color: var(--cream);
+    border-color: var(--dark);
+  }
+
+  .tier-card.featured .tier-btn:hover {
+    background: #3d362f;
+  }
+
+  /* ===== PROCESS ===== */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .process-step {
+    padding: 32px;
+    text-align: center;
+  }
+
+  .step-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.5rem;
+    opacity: 0.15;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .process-step h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+
+  .process-step p {
+    font-size: 0.82rem;
+    opacity: 0.55;
+    line-height: 1.6;
+  }
+
+  /* ===== CTA ===== */
+  .cta-section {
+    text-align: center;
+    padding: 120px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-glass {
+    padding: 80px 60px;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(242, 209, 107, 0.12);
+    border-color: rgba(242, 209, 107, 0.3);
+  }
+
+  .cta-glass h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .cta-glass p {
+    opacity: 0.55;
+    font-size: 1rem;
+    margin-bottom: 32px;
+    max-width: 400px;
+    line-height: 1.7;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 24px 50px;
+    opacity: 0.35;
+    font-size: 0.8rem;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translate(-50%, -20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-card.span-2 { grid-column: span 1; }
+    .tiers-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    .process-steps { grid-template-columns: repeat(2, 1fr); }
+    .diff-visual { flex-direction: column; gap: 20px; }
+    nav { padding: 12px 24px; gap: 20px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .process-steps { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.6rem; }
+    nav { top: 12px; }
+    .cta-glass { padding: 50px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating Color Blobs -->
+<div class="blob-container">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="blob blob-5"></div>
+</div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-logo">SwitchPoint</a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#process">Process</a>
+    <a href="#cta" class="nav-cta">Book a Call</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge glass-subtle">Taking on new clients</div>
+  <h1>Your ads should <em>move</em> as fast as your customers scroll.</h1>
+  <p class="hero-sub">Creative strategy & testing for Shopify brands running Meta ads. We find what works — and kill what doesn't — before your budget does.</p>
+  <div class="hero-buttons">
+    <a href="#cta" class="btn-primary">Get Started</a>
+    <a href="#services" class="btn-secondary">See How It Works</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- What We Do -->
+<section id="services">
+  <div class="reveal">
+    <p class="section-label">What We Do</p>
+    <h2 class="section-title">Everything your creatives need to win. Nothing they don't.</h2>
+  </div>
+
+  <div class="bento-grid">
+    <div class="bento-card glass span-2 reveal">
+      <div>
+        <div class="bento-icon yellow">🎯</div>
+        <h3>Angle & Hook Research</h3>
+        <p>Deep competitor analysis and market research to uncover the angles your audience actually responds to — plus 8–10 scroll-stopping hooks written and ready to test.</p>
+      </div>
+    </div>
+    <div class="bento-card glass reveal">
+      <div>
+        <div class="bento-icon red">📋</div>
+        <h3>Ad Blueprints</h3>
+        <p>2–3 full ad blueprints with shot-by-shot scripts, outlines, and structure your team can produce immediately.</p>
+      </div>
+    </div>
+    <div class="bento-card glass reveal">
+      <div>
+        <div class="bento-icon blue">📊</div>
+        <h3>Kill or Scale Decisions</h3>
+        <p>Weekly data reviews with clear calls: double down on winners, cut losers fast, iterate on the middle.</p>
+      </div>
+    </div>
+    <div class="bento-card glass span-2 reveal">
+      <div>
+        <div class="bento-icon green">✨</div>
+        <h3>Above-the-Fold Optimization</h3>
+        <p>Headline clarity, value prop sharpness, offer framing, guarantee visibility — small changes where your traffic actually lands that make your ad spend go further.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Differentiator -->
+<section class="diff-section">
+  <div class="reveal">
+    <p class="section-label">Why Us</p>
+    <h2 class="section-title">Most agencies react in weeks. We react in days.</h2>
+  </div>
+
+  <div class="diff-visual reveal">
+    <div class="diff-card glass diff-highlight">
+      <p class="label">SwitchPoint</p>
+      <p class="time">3–5 days</p>
+      <p class="desc">Weak signal detected. New creative direction live.</p>
+    </div>
+    <span class="diff-vs">vs</span>
+    <div class="diff-card glass-subtle diff-other">
+      <p class="label">Typical Agency</p>
+      <p class="time">3–4 weeks</p>
+      <p class="desc">Monthly report. Budget already spent. Oops.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+  <div class="reveal">
+    <p class="section-label">Pricing</p>
+    <h2 class="section-title">Simple tiers. Real results.</h2>
+  </div>
+
+  <div class="tiers-grid">
+    <div class="tier-card glass reveal">
+      <p class="tier-name">The Playbook</p>
+      <p class="tier-desc">One-time creative deep dive</p>
+      <p class="tier-price">$650 <span>one-time</span></p>
+      <ul class="tier-features">
+        <li>Competitor & angle research</li>
+        <li>4–5 hooks with scripts</li>
+        <li>1–2 full ad blueprints</li>
+        <li>Loom walkthrough of strategy</li>
+      </ul>
+      <button class="tier-btn" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    </div>
+
+    <div class="tier-card glass featured reveal">
+      <p class="tier-name">Test & Iterate</p>
+      <p class="tier-desc">Ongoing creative strategy</p>
+      <p class="tier-price">$2,000 <span>/month</span></p>
+      <ul class="tier-features">
+        <li>Full creative research & analysis</li>
+        <li>8–10 hooks with scripts</li>
+        <li>2–3 ad blueprints</li>
+        <li>Weekly kill/scale reviews</li>
+        <li>Above-the-fold suggestions</li>
+        <li>Monthly strategy call</li>
+      </ul>
+      <button class="tier-btn" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    </div>
+
+    <div class="tier-card glass reveal">
+      <p class="tier-name">Growth Partner</p>
+      <p class="tier-desc">Full creative direction</p>
+      <p class="tier-price">$4,000 <span>/month</span></p>
+      <ul class="tier-features">
+        <li>Everything in Test & Iterate</li>
+        <li>UGC creator briefs</li>
+        <li>Ad fatigue monitoring</li>
+        <li>Ongoing competitor tracking</li>
+        <li>Offer & pricing strategy</li>
+        <li>Bi-weekly strategy calls</li>
+      </ul>
+      <button class="tier-btn" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section id="process">
+  <div class="reveal">
+    <p class="section-label">Our Process</p>
+    <h2 class="section-title">Four steps. Zero wasted spend.</h2>
+  </div>
+
+  <div class="process-steps">
+    <div class="process-step glass-subtle reveal">
+      <p class="step-num">01</p>
+      <h3>Research</h3>
+      <p>We study your niche, competitors, and audience to find untapped angles.</p>
+    </div>
+    <div class="process-step glass-subtle reveal">
+      <p class="step-num">02</p>
+      <h3>Build</h3>
+      <p>Hooks, scripts, and ad blueprints — ready for your team to produce.</p>
+    </div>
+    <div class="process-step glass-subtle reveal">
+      <p class="step-num">03</p>
+      <h3>Test</h3>
+      <p>Creatives go live. We watch the data from day one.</p>
+    </div>
+    <div class="process-step glass-subtle reveal">
+      <p class="step-num">04</p>
+      <h3>Switch</h3>
+      <p>Kill underperformers fast. Scale winners. Repeat.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="cta-section">
+  <div class="cta-glass glass reveal">
+    <h2>Ready to stop guessing?</h2>
+    <p>Book a free discovery call and we'll walk through your current ads together.</p>
+    <a href="#" class="btn-primary">Book a Free Call →</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 SwitchPoint. Creative strategy for brands that move fast.</p>
+</footer>
+
+<!-- Scroll Reveal Script -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, index * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Parallax blobs on mouse move
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+    document.querySelectorAll('.blob').forEach((blob, i) => {
+      const speed = (i + 1) * 8;
+      blob.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+    });
+  });
+</script>
+
+</body>
+</html>
